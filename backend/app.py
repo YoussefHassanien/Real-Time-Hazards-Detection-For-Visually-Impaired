@@ -1,6 +1,7 @@
 import os
 from contextlib import asynccontextmanager
 from typing import Any, Dict
+import uvicorn
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
@@ -18,7 +19,7 @@ DEPTH_MODEL_ID = os.getenv("DEPTH_MODEL_ID",
                            "depth-anything/Depth-Anything-V2-Small-hf")
 YOLO_CONF = float(os.getenv("YOLO_CONF", "0.25"))
 MAX_DET = int(os.getenv("MAX_DET", "20"))
-DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "1.0"))
+DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "0.4"))
 DEVICE = os.getenv("DEVICE")
 
 
@@ -110,3 +111,15 @@ async def websocket_endpoint(websocket: WebSocket) -> None:
 @app.exception_handler(FileNotFoundError)
 def file_not_found_handler(_, __) -> JSONResponse:
     return JSONResponse(status_code=404, content={"error": "file_not_found"})
+
+
+if __name__ == "__main__":
+    working_directory = os.getcwd()
+    uvicorn.run(
+        "backend.app:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=True,
+        reload_dirs=[working_directory],
+        reload_includes=["*.py", "*.js", "*.html", "*.css"],
+    )
