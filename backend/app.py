@@ -7,7 +7,6 @@ from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
 
 from .inference import InferenceService
 
@@ -50,19 +49,10 @@ if os.path.isdir(FRONTEND_DIR):
 STATE: Dict[str, Any] = {"depth_scale": DEPTH_SCALE}
 
 
-class CalibrationUpdate(BaseModel):
-    depth_scale: float = Field(..., gt=0.0)
-
-
 @app.get("/")
 def index() -> FileResponse:
     index_path = os.path.join(FRONTEND_DIR, "index.html")
     return FileResponse(index_path)
-
-
-@app.get("/api/health")
-def health() -> Dict[str, str]:
-    return {"status": "ok"}
 
 
 @app.websocket("/ws")
