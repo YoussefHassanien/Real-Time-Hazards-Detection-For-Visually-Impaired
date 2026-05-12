@@ -65,24 +65,6 @@ def health() -> Dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/api/config")
-def config() -> Dict[str, Any]:
-    return {
-        "yolo_weights": YOLO_WEIGHTS,
-        "depth_model_id": DEPTH_MODEL_ID,
-        "depth_scale": STATE["depth_scale"],
-        "yolo_conf": YOLO_CONF,
-        "max_det": MAX_DET,
-        "device": DEVICE,
-    }
-
-
-@app.post("/api/calibration")
-def update_calibration(payload: CalibrationUpdate) -> Dict[str, Any]:
-    STATE["depth_scale"] = payload.depth_scale
-    return {"depth_scale": STATE["depth_scale"]}
-
-
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket) -> None:
     await websocket.accept()
