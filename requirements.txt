@@ -1,0 +1,10 @@
+fastapi
+uvicorn[standard]
+ultralytics
+opencv-python
+numpy
+pillow
+torch
+torchvision
+transformers
+safetensors

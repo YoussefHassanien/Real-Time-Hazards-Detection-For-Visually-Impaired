@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vision Assist PoC</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      type="module"
+      src="https://ui5.sap.com/resources/sap-ui-webcomponents/bundle.esm.js"
+    ></script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">Vision Assist Prototype</p>
+        <h1>Real-time object awareness for visual guidance.</h1>
+        <p class="subtext">
+          Stream camera frames to FastAPI, run YOLOv8s + Depth Anything v2, and
+          show distance in meters.
+        </p>
+      </header>
+
+      <section class="stage">
+        <div class="video-frame">
+          <video id="video" autoplay playsinline muted></video>
+          <canvas id="overlay"></canvas>
+        </div>
+
+        <div class="controls">
+          <ui5-button id="startBtn" design="Emphasized"
+            >Start camera</ui5-button
+          >
+          <span id="status" class="status">Idle</span>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>

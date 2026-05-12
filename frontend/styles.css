@@ -1,0 +1,171 @@
+:root {
+  color-scheme: dark;
+  --bg-1: #0b0f14;
+  --bg-2: #1a2230;
+  --panel: rgba(18, 24, 34, 0.88);
+  --accent: #f2b366;
+  --accent-hover: #f8c98d;
+  --accent-2: #23d3b4;
+  --accent-2-strong: #35f0ce;
+  --text: #f6f0e8;
+  --muted: #b3b7c1;
+  --stroke: rgba(255, 255, 255, 0.08);
+  --glow: rgba(242, 179, 102, 0.4);
+  --connected-glow: rgba(35, 211, 180, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Sora", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(
+      circle at 10% 10%,
+      rgba(35, 211, 180, 0.16),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 90% 20%,
+      rgba(242, 179, 102, 0.18),
+      transparent 45%
+    ),
+    linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  min-height: 100vh;
+}
+
+.shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+  display: grid;
+  gap: 32px;
+}
+
+.hero {
+  background: var(--panel);
+  border: 1px solid var(--stroke);
+  padding: 32px 36px;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(12px);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  color: var(--accent-2);
+  margin: 0 0 12px;
+}
+
+.hero h1 {
+  margin: 0 0 12px;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.1;
+}
+
+.subtext {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.stage {
+  display: grid;
+  gap: 18px;
+}
+
+.video-frame {
+  position: relative;
+  width: 100%;
+  background: #05070a;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--stroke);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+video,
+#overlay {
+  width: 100%;
+  display: block;
+}
+
+#overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+  background: var(--panel);
+  border-radius: 16px;
+  border: 1px solid var(--stroke);
+  padding: 18px 22px;
+}
+
+.status {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.status[data-state="connected"] {
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
+ui5-button::part(button) {
+  background: linear-gradient(120deg, var(--accent), #f7c68a);
+  border: none;
+  box-shadow: 0 0 20px var(--glow);
+  color: #1b1208;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+ui5-button:hover::part(button) {
+  background: linear-gradient(120deg, var(--accent-hover), #ffd7a3);
+  box-shadow: 0 0 26px var(--glow);
+  transform: translateY(-1px);
+}
+
+ui5-button[data-state="connected"]::part(button) {
+  background: linear-gradient(120deg, var(--accent-2), var(--accent-2-strong));
+  box-shadow: 0 0 22px var(--connected-glow);
+  color: #071b16;
+}
+
+ui5-button[data-state="connected"]:hover::part(button) {
+  background: linear-gradient(120deg, var(--accent-2-strong), #7ef7e0);
+}
+
+ui5-button {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .shell {
+    padding: 32px 16px 48px;
+  }
+
+  .hero {
+    padding: 24px;
+  }
+
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
