@@ -139,8 +139,7 @@ class InferenceService:
             return 0.0
         return float(np.median(roi))
 
-    def _depth_to_distance(self, depth_value: float,
-                           depth_scale: float) -> Optional[float]:
+    def _depth_to_distance(self, depth_value: float, depth_scale: float) -> Optional[float]:
         if depth_value <= 0.0:
             return None
-        return round(depth_value * depth_scale, 3)
+        return round(depth_scale / depth_value, 3)

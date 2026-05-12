@@ -18,7 +18,7 @@ DEPTH_MODEL_ID = os.getenv("DEPTH_MODEL_ID",
                            "depth-anything/Depth-Anything-V2-Small-hf")
 YOLO_CONF = float(os.getenv("YOLO_CONF", "0.5"))
 MAX_DET = int(os.getenv("MAX_DET", "20"))
-DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "0.4"))
+DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "1.0"))
 DEVICE = os.getenv("DEVICE")
 
 

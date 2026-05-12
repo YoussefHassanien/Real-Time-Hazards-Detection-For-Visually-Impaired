@@ -13,11 +13,6 @@ let running = false;
 let inFlight = false;
 let lastSent = 0;
 const targetIntervalMs = 1000 / 24;
-const hazardLabels = new Set(["person", "stairs", "cabinet", "floor_clutter", "low_furniture", "pet"].map((label) => label.toLowerCase()));
-const speechSupported = "speechSynthesis" in window;
-const speechCooldownMs = 1500;
-const speechDistanceDeltaM = 0.4;
-const lastAnnouncementByLabel = new Map();
 
 function setStatus(text, state) {
   statusEl.textContent = text;
@@ -76,17 +71,9 @@ async function stopCamera() {
     stream.getTracks().forEach((track) => track.stop());
     stream = null;
   }
-  if (speechSupported) {
-    window.speechSynthesis.cancel();
-  }
-  lastAnnouncementByLabel.clear();
   startBtn.textContent = "Start camera";
   setStatus("Idle", "idle");
   clearOverlay();
-}
-
-function isHazardLabel(label) {
-  return hazardLabels.has(String(label).toLowerCase());
 }
 
 function formatDistance(distanceM) {
@@ -94,55 +81,6 @@ function formatDistance(distanceM) {
     return null;
   }
   return distanceM.toFixed(1);
-}
-
-function speak(text) {
-  if (!speechSupported) {
-    return;
-  }
-  const synth = window.speechSynthesis;
-  if (synth.speaking || synth.pending) {
-    return;
-  }
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 1;
-  utterance.pitch = 1;
-  synth.speak(utterance);
-}
-
-function announceHazards(detections) {
-  if (!speechSupported) {
-    return;
-  }
-  const hazards = detections
-    .filter((det) => isHazardLabel(det.label))
-    .filter((det) => Number.isFinite(det.distance_m))
-    .sort((a, b) => a.distance_m - b.distance_m);
-
-  if (!hazards.length) {
-    return;
-  }
-
-  const now = performance.now();
-  for (const det of hazards) {
-    const labelKey = String(det.label).toLowerCase();
-    const last = lastAnnouncementByLabel.get(labelKey);
-    const distance = det.distance_m;
-    const distanceText = formatDistance(distance);
-    if (!distanceText) {
-      continue;
-    }
-    if (
-      last &&
-      now - last.time < speechCooldownMs &&
-      Math.abs(distance - last.distance) < speechDistanceDeltaM
-    ) {
-      continue;
-    }
-    speak(`${det.label} at ${distanceText} meters`);
-    lastAnnouncementByLabel.set(labelKey, { time: now, distance });
-    break;
-  }
 }
 
 function resizeCanvases() {
@@ -263,8 +201,6 @@ function drawDetections(payload) {
     overlayCtx.fillStyle = "#f6f0e8";
     overlayCtx.fillText(label, x1 + 6, Math.max(14, y1 - 8));
   });
-
-  announceHazards(detections);
 }
 
 window.addEventListener("resize", resizeCanvases);
