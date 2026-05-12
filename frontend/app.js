@@ -13,7 +13,7 @@ let running = false;
 let inFlight = false;
 let lastSent = 0;
 const targetIntervalMs = 1000 / 24;
-const hazardLabels = new Set(["person"].map((label) => label.toLowerCase()));
+const hazardLabels = new Set(["person", "stairs", "cabinet", "floor_clutter", "low_furniture", "pet"].map((label) => label.toLowerCase()));
 const speechSupported = "speechSynthesis" in window;
 const speechCooldownMs = 1500;
 const speechDistanceDeltaM = 0.4;

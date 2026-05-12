@@ -14,7 +14,7 @@ class InferenceService:
         self,
         yolo_weights: str,
         depth_model_id: str,
-        yolo_conf: float = 0.25,
+        yolo_conf: float = 0.5,
         max_det: int = 20,
         device: Optional[str] = None,
     ) -> None:
@@ -59,6 +59,7 @@ class InferenceService:
         yolo_results = self.yolo.predict(
             source=frame_bgr,
             conf=self.yolo_conf,
+            iou=0.7,
             max_det=self.max_det,
             device=self.yolo_device,
             verbose=False,

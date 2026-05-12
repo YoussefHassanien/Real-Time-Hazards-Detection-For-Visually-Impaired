@@ -13,10 +13,10 @@ from .inference import InferenceService
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
 
-YOLO_WEIGHTS = os.getenv("YOLO_WEIGHTS", "yolov8s.pt")
+YOLO_WEIGHTS = os.getenv("YOLO_WEIGHTS", "BEST_YOLO.pt")
 DEPTH_MODEL_ID = os.getenv("DEPTH_MODEL_ID",
                            "depth-anything/Depth-Anything-V2-Small-hf")
-YOLO_CONF = float(os.getenv("YOLO_CONF", "0.25"))
+YOLO_CONF = float(os.getenv("YOLO_CONF", "0.5"))
 MAX_DET = int(os.getenv("MAX_DET", "20"))
 DEPTH_SCALE = float(os.getenv("DEPTH_SCALE", "0.4"))
 DEVICE = os.getenv("DEVICE")
