@@ -25,26 +25,16 @@ Open http://localhost:8000 and click "Start camera".
 Distances are computed as:
 
 $$
-\text{distance}_m = \text{depth\_value} \times \text{depth\_scale}
+\text{depth\_scale} \over \text{depth\_value}
 $$
-
-Set `DEPTH_SCALE` via environment variable or POST JSON to the calibration endpoint:
-
-```bash
-curl -X POST http://localhost:8000/api/calibration \
-  -H "Content-Type: application/json" \
-  -d "{\"depth_scale\": 1.0}"
-```
-
-You can derive `depth_scale` by measuring a known distance and comparing it with a depth value reported in the WebSocket response.
 
 ## Configuration
 
 Environment variables:
 
-- `YOLO_WEIGHTS` (default `yolov8s.pt`)
+- `YOLO_WEIGHTS` (default `best_YOLO.pt`)
 - `DEPTH_MODEL_ID` (default `depth-anything/Depth-Anything-V2-Small-hf`)
-- `YOLO_CONF` (default `0.25`)
+- `YOLO_CONF` (default `0.5`)
 - `MAX_DET` (default `20`)
 - `DEPTH_SCALE` (default `1.0`)
 - `DEVICE` (optional, e.g. `cuda`, `cpu`, `cuda:0`)
